@@ -6,10 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -37,6 +34,18 @@ public class fileUploadDownloadController {
             return ResponseEntity.ok("File uploaded successfully: " + destFile.getAbsolutePath());
         }catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed " + e);
+        }
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) {
+        try {
+            Path filePath = Paths.get("src/main/resources", uploadDir, fileName);
+            File file = filePath.toFile();
+            byte[] fileContent = FileUtils.readFileToByteArray(file);
+            return ResponseEntity.ok().body(fileContent);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
