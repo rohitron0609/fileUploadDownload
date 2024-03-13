@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>in.decx</groupId>
 	<artifactId>fileUploadDownload</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>fileUploadDownload</name>
 	<description>Project to upload and download files</description>
 	<properties>
